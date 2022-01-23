@@ -49,6 +49,7 @@ cmds.set("giveBlobSkill", async (msg, name, skillName) => {
 		msg.reply("You do not have permission to do that!");
 		return;
 	}
+	var data = await userdata.load(user);
 	var blob = data.getBlob(name);
 	if(blob) {
 		if(blob.skills.includes(name)) {
