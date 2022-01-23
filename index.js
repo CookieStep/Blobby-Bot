@@ -7,10 +7,14 @@ bot.on('ready', () => {
 	console.log(`Logged in as ${bot.user.tag}!`)
 });
 
-bot.on("messageCreate", (_, msg) => {msg = _;
+bot.on("messageCreate", async (_, msg) => {msg = _;
 	if(msg.content == "?cmds") {
-		updateInteractions(msg.guild);
-		msg.channel.send("Updated?");
+		try{
+			await updateInteractions(msg.guild);
+			msg.channel.send("Updated?");
+		}catch(err) {
+			msg.channel.send(err.message)
+		}
 	}
 	if(msg.content == "?pfp") {
 		updateInteractions(msg.guild);
@@ -134,7 +138,7 @@ bot.on("interactionCreate", (_, cmd) => {cmd = _;
 
 /**@param {Guild} guild*/
 function updateInteractions(guild) {
-	guild.commands.set(interactions);
+	return guild.commands.set(interactions);
 }
 
 /**@type {Map<string, (int: CommandInteraction) => void>}*/
