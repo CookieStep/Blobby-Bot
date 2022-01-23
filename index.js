@@ -43,7 +43,7 @@ cmds.add = (cmd, ...names) => names.forEach(name => cmds.set(name, cmd));
 cmds.create = () => {};
 cmds.run = (cmd, ...parameters) => cmds.get(cmd)(...parameters);
 
-cmds.set("giveBlobSkill", async (msg, name, skillName) => {
+cmds.set("giveBlobSkill", async (msg, name, skill) => {
 	var user = msg.member;
 	if(user.id != ownerid) {
 		msg.reply("You do not have permission to do that!");
@@ -52,11 +52,11 @@ cmds.set("giveBlobSkill", async (msg, name, skillName) => {
 	var data = await userdata.load(user);
 	var blob = data.getBlob(name);
 	if(blob) {
-		if(blob.skills.includes(name)) {
+		if(blob.skills.includes(skill)) {
 			return msg.reply("This blob already has that skill!");
 		}else{
-			if(blobs.skills[name]) {
-				blob.skills.push(name);
+			if(blobs.skills[skill]) {
+				blob.skills.push(skill);
 				msg.reply("Success!");
 			}else return msg.reply("The skill does not exist!");
 		}
@@ -950,7 +950,6 @@ var ownerid = "563924556910297099";
 
 const userdata = require("./userdata");
 const blobs = require("./stats");
-console.log(blobs);
 const database = require("./database");
 if(db) database.key = db.key;
 const story = require("./story");
@@ -971,3 +970,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
+console.log("v1.3");
