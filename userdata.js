@@ -43,7 +43,7 @@ class User{
 	}
 }
 class Blob{
-	constructor({type, name, lvl, hp, xp}) {
+	constructor({type, name, lvl, hp, xp, skills}) {
 		/**@type {string}*/
 		this.type = type;
 		/**@type {number}*/
@@ -53,6 +53,7 @@ class Blob{
 		var nname = arr[Math.floor(Math.random() * arr.length)];
 		/**@type {string}*/
 		this.name = name || nname;
+		this.skills = skills || [];
 		/**@type {number}*/
 		this.xp = xp || 0;
 		if(hp) {

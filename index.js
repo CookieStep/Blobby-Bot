@@ -39,6 +39,25 @@ cmds.add = (cmd, ...names) => names.forEach(name => cmds.set(name, cmd));
 cmds.create = () => {};
 cmds.run = (cmd, ...parameters) => cmds.get(cmd)(...parameters);
 
+cmds.set("giveBlobSkill", async (msg, name, skillName) => {
+	var user = msg.member;
+	if(user.id != ownerid) {
+		msg.reply("You do not have permission to do that!");
+		return;
+	}
+	var blob = data.getBlob(name);
+	if(blob) {
+		if(blob.skills.includes(name)) {
+			return msg.reply("This blob already has that skill!");
+		}else{
+			if(blobs.skills[name]) {
+				blob.skills.push(name);
+			}else return msg.reply("The skill does not exist!");
+		}
+	}else{
+		msg.reply(`Unable to find a blob with named "${string}}"\nCheck your blobs?"`);
+	}
+});
 cmds.set("setBlob", async (msg, name, lvl=1) => {
 	var user = msg.member;
 	if(user.id != ownerid) {
@@ -502,7 +521,7 @@ buttons.set("blobs.viewBlob", async (cmd, string) => {
 		row2.addComponents(button);
 		cmd.reply({embeds: [embed], components: [row, row2]});
 	}else{
-		txt = `Unable to find a blob with named "${string}}\nCheck your blobs?"`;
+		txt = `Unable to find a blob with named "${string}}"\nCheck your blobs?`;
 		cmd.reply({
 			content: txt,
 			ephemeral: true

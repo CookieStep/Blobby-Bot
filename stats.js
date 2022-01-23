@@ -22,19 +22,18 @@ const Elements = {
 	var buffs = {
 		[WATER]: [
 			"Water: Ignore 20% of Fire defense",
-			"Water: Ignore 20% of Rock defense"
+			"Water: 20% more strength against Rock"
 		],
 		[FIRE]: [
 			"Fire: 20% more damage to Plant",
 			"Fire: 20% more damage to Monster"
 		],
 		[ROCK]: [
-			"Rock: Ignore 20% of Plant defense",
-			"Rock: Ignore 20% of Rock defense"
+			"Rock: Ignore 20% of Plant defense"
 		],
 		[BUZZ]: [
 			"Electric: Ignore 20% Water defense",
-			"Electric: Ignore 20% Monster defense"
+			"Electric: 20% more strength against Monster"
 		],
 		[PLANT]: [
 			"Plant: Take 20% less Water damage",
@@ -44,12 +43,15 @@ const Elements = {
 			"Light: Ignore 20% Dark defense"
 		],
 		[DARK]: [
-			"Dark: Take 20% less Light damage"
+			"Dark: 20% more strength against Light"
 		],
 		[MONSTER]: [
 			"Monster: 20% more damage to Plant"
 		]
 	};
+    var skills = {
+        "none.charge": "Wait, then attack for extra damage"
+    };
 	var names = {
 		none: ["Bob", "Carl", "Luke", "John", "Sue", "Mia", "Lisa", "Mark"],
 		water: ["Drink", "Drip", "Drop", "Liquid", "H-Two", "Puddle", "River", "Levi"],
