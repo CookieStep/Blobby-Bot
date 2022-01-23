@@ -398,4 +398,4 @@ function gacha() {
 /**@type {Guild}*/
 var hub;
 
-module.exports = {base, names, create, getImage, Elements, getEmoji, allSheet, battleSheet, partySheet, statsSheet, gacha, setHub(h) {hub = h}};
+module.exports = {base, skills, names, create, getImage, Elements, getEmoji, allSheet, battleSheet, partySheet, statsSheet, gacha, setHub(h) {hub = h}};

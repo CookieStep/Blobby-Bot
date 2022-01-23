@@ -57,6 +57,7 @@ cmds.set("giveBlobSkill", async (msg, name, skillName) => {
 		}else{
 			if(blobs.skills[name]) {
 				blob.skills.push(name);
+				msg.reply("Success!");
 			}else return msg.reply("The skill does not exist!");
 		}
 	}else{
