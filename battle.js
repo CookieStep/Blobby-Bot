@@ -194,6 +194,7 @@ class Battle{
 		return "";
 	}
 	runAttack(atk, def, msg) {
+		console.log(atk, def);
 		//attack
 		var [dmg, rec] = atk.attack(def);
 		//Make messsage
@@ -571,4 +572,4 @@ var {Blob: dBlob} = userdata;
 /**@type {Map<string, Battle>}*/
 var battles = new Map;
 module.exports = {battles, Battle, battleTargets};
-console.log("battle: v1.3.30");
+console.log("battle: v1.3.31");
