@@ -89,7 +89,7 @@ class Battle{
     getTurn() {
         var {allBlobs} = this;
         allBlobs = [...allBlobs, ...this.events];
-        allBlobs = allBlobs.filter(blob => round(blob.hp) > 0).sort((a, b) => a.delay - b.delay);
+        allBlobs = allBlobs.filter(blob => int(blob.hp) > 0).sort((a, b) => a.delay - b.delay);
         // console.log(allBlobs);
         /**@type {tBlob}*/
         this.turn = allBlobs[0];
@@ -117,12 +117,12 @@ class Battle{
         for(let i = 0; i <= length; i++) {
             let blob = party[i];
             let blob2 = party[i - 1];
-            embed.addField(i == 0? `${a}'s party`: `(lvl ${blob2.lvl}) (${round(blob2.hp)}/${round(blob2.maxHp)} hp)`, blob? `${blob.emoji} (${blob.name})`: `**VS**`);
+            embed.addField(i == 0? `${a}'s party`: `(lvl ${blob2.lvl}) (${int(blob2.hp)}/${int(blob2.maxHp)} hp)`, blob? `${blob.emoji} (${blob.name})`: `**VS**`);
         }
         for(let i = 0; i <= len2; i++) {
             let blob = party2[i];
             let blob2 = party2[i - 1];
-            embed.addField(i == 0? `${b}'s party`: `(lvl ${blob2.lvl}) (${round(blob2.hp)}/${round(blob2.maxHp)} hp)`, blob? `${blob.emoji} [${blob.name}]`: this.timeline);
+            embed.addField(i == 0? `${b}'s party`: `(lvl ${blob2.lvl}) (${int(blob2.hp)}/${int(blob2.maxHp)} hp)`, blob? `${blob.emoji} [${blob.name}]`: this.timeline);
         }
         if(this.allDead) {
             this.delete();
@@ -132,6 +132,8 @@ class Battle{
         }
         return embed;
     }
+    botDel   = 1000;
+    eventDel = 1000;
     async doBotTurn(turn) {
         if(turn.owner == this.main.id) {
             var party = this.party2;
@@ -140,11 +142,15 @@ class Battle{
             party = this.party;
             enemies = this.party2;
         }
-        await delay(1000);
+        await delay(this.botDel);
         this.botTurn(turn, party, enemies);
     }
+    async doEvent(event) {
+        await delay(this.eventDel);
+        event.run();
+    }
     botTurn(blob, enemies, party) {
-        enemies = enemies.filter(blob => round(blob.hp) > 0);
+        enemies = enemies.filter(blob => int(blob.hp) > 0);
         var target = enemies[Math.floor(Math.random() * enemies.length)];
         this.use("attack", target.name);
     }
@@ -167,27 +173,35 @@ class Battle{
                 }
             }
             if(who) {
-                if(round(who.hp) <= 0) return "They don't have any hp!";
+                if(int(who.hp) <= 0) return "They don't have any hp!";
                 var [dmg, ret] = this.turn.attack(who);
-                var txt = `${this.turn.name} attacks ${who.name}!`;
-                if(dmg) txt += `\n${this.turn.name} hits ${who.name} for ${dmg} damage!`;
-                else txt += "\nIt is ineffective!";
-                if(ret) txt += `\n${this.turn.name} takes ${dmg} damage in the process!`;
-                if(round(who.hp) <= 0) txt += `\n${who.name} has lost it's form!`;
-                if(round(this.turn.hp) <= 0) txt += `\n${this.turn.name} has lost it's form!`;
+                var txt = this.attackMsg(this.turn, who, dmg, ret);
+                txt += this.deathMsg(who);
+                txt += this.deathMsg(this.turn);
                 this.log = `${this.log}\n${txt}`;
                 this.nextTurn();
                 return "Success!";
             }else return `Couldn't find a blob named "${on}"`;
         }else if(what in Skills) {
-
+            return Skills[what].use.call(this.turn, battle, on, party, party2);
         }
+    }
+    attackMsg(atk, def, dmg, ret, txt) {
+        txt ||= `${atk.name} attacks ${def.name}!`;
+        if(dmg) txt += `\n${atk.name} hits ${def.name} for ${dmg} damage!`;
+        else txt += "\nIt is ineffective!";
+        if(ret) txt += `\n${atk.name} takes ${ret} damage in the process!`;
+        return txt;
+    }
+    deathMsg(blob) {
+        if(blob.hp < 0) return `\n${blob.name} has lost it's form!`;
+        return "";
     }
     nextTurn() {
         var {party, party2} = this;
         var allDead = true;
         for(let blob of party) {
-            if(round(blob.hp) > 0) {
+            if(int(blob.hp) > 0) {
                 allDead = false;
             }
         }
@@ -197,7 +211,7 @@ class Battle{
         }else{
             var allDead = true;
             for(let blob of party2) {
-                if(round(blob.hp) > 0) {
+                if(int(blob.hp) > 0) {
                     allDead = false;
                 }
             }
@@ -220,7 +234,7 @@ class Battle{
         if(allDead) this.end();
         else{
             if(turn.bot) this.doBotTurn(turn);
-            if(turn.event) turn.run();
+            if(turn.event) this.doEvent(turn);
         }
     }
     async end() {
@@ -244,11 +258,11 @@ class Battle{
             div = 1/div;
             for(let blob of party2) {//Give xp
                 let share = blob.share * div;
-                let sxp = round(blob.xp);
+                let sxp = floor(blob.xp);
                 for(let other of party) {
                     blob.xp += 100 * share * (other.share)/(other.share + blob.share);
                 }
-                xpText += `\n${blob.name} gained ${round(blob.xp) - sxp} xp!`;
+                xpText += `\n${blob.name} gained ${floor(blob.xp) - sxp} xp!`;
             }
             xpText += data.partyLevelup(username);
             await userdata.save(this.opp);
@@ -262,7 +276,7 @@ class Battle{
         // var {turn} = this;
         var id = this.main.id;
         for(let blob of this.allBlobs) {
-            if(round(blob.hp) > 0) {
+            if(int(blob.hp) > 0) {
                 blobs.push({
                     team: blob.owner == id,
                     name: blob.name,
@@ -348,7 +362,7 @@ class Battle{
 const int = num => ceil(num);
 const pen = (a, p) => (p+sqrt(p*p + 4*p*a))*.5;
 
-var {round, floor, ceil} = Math;
+var {int, floor, ceil} = Math;
 {
     let {
         WATER,
@@ -394,8 +408,8 @@ var {round, floor, ceil} = Math;
         get xp() {return this.blob.xp}
         set xp(amo) {return this.blob.xp = amo}
         attack(blob, melee=1) {
-            var hp = round(blob.hp);
-            var mh = round(this.hp);
+            var hp = int(blob.hp);
+            var mh = int(this.hp);
 
             var a = {atk: this.atk, str: this.str, def: this.def, ele: [...this.ele]};
             var b = {atk: blob.pok, str: blob.str, def: blob.def, ele: [...blob.ele]};
@@ -422,7 +436,7 @@ var {round, floor, ceil} = Math;
             }
 
             this.delay += this.del;
-            return [hp - round(blob.hp), mh - round(this.hp)];
+            return [hp - int(blob.hp), mh - int(this.hp)];
             function elements(a, b) {
                 var vs = (e, e2) => (a.ele.includes(e) && b.ele.includes(e2));
                 //Fire has 20% less defense against Water
@@ -486,17 +500,24 @@ var Skills = {
         /**@this {tBlob}*/
         press(cmd, id, enemies) {
             var battle = battles.get(id);
-            // battle.addEvent(this.del * .5, () => {
-            //     battle.doBotTurn(this);
-            // });
             cmd.reply({
                 ephemeral: true,
                 components: [battleTargets(battle, "battle.use none.charge "+id)],
                 text: "Who will you attack after fully charged?"
             });
         },
-        use() {
-
+        /**@param {Battle} battle*/
+        use(battle, blob, enemies, party) {
+            battle.addEvent(this.del * .5, () => {
+                var atk = this.atk;
+                this.atk *= 1.5;
+                var [d, r] = this.attack(blob);
+                var txt = battle.attackMsg(this, blob, d, r, `${this.name} performs a charged attack on ${blob.name}`);
+                txt += battle.deathMsg(blob);
+                txt += battle.deathMsg(this);
+                this.atk = atk;
+                battle.nextTurn();
+            });
         }
     }
 }
@@ -513,7 +534,7 @@ function battleTargets(battle, str) {
 		button.setLabel(blob.name);
 		button.setStyle("SECONDARY");
 		button.setEmoji(blob.emoji);
-		if(Math.round(blob.hp) <= 0) {
+		if(int(blob.hp) <= 0) {
 			button.setDisabled(true);
 		}
 		row.addComponents(button);

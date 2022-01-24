@@ -326,12 +326,12 @@ function battleSheet(data, other, a, b) {
 		let blobStats, blobStat2;
 		if(blob)  blobStats = blob.stats;
 		if(blob2) blobStat2 = blob2.stats;
-		embed.addField(i == 0? `${a} vs ${b}`: blob2.name + ` (lvl ${blob2.lvl}) (${round(blob2.hp)}/${round(blobStat2.hp)} hp)`, blobStats? getEmoji(blobStats.id).toString(): "**VS**");
+		embed.addField(i == 0? `${a} vs ${b}`: blob2.name + ` (lvl ${blob2.lvl}) (${int(blob2.hp)}/${int(blobStat2.hp)} hp)`, blobStats? getEmoji(blobStats.id).toString(): "**VS**");
 	}
 	for(let i = 0; i < len2; i++) {
 		let blob = party2[i];
 		let blobStats = create(base[blob.type],  blob.lvl);
-		embed.addField(getEmoji(blobStats.id).toString(), "**"+blob.name + ` (lvl ${blob.lvl}) (${round(blob.hp)}/${round(blobStats.hp)} hp)**`);
+		embed.addField(getEmoji(blobStats.id).toString(), "**"+blob.name + ` (lvl ${blob.lvl}) (${int(blob.hp)}/${int(blobStats.hp)} hp)**`);
 	}
 	return embed;
 }
@@ -351,14 +351,14 @@ function allSheet(data, id) {
 var int = Math.ceil;
 function stats(blob, blobStats) {
 	var stats = "";
-	stats += `Experience: ${round(blob.xp)}/100 xp\n`
-	// stats += `Health: ${round(blob.hp)}/${round(blobStats.hp)} hp\n`;
-	stats += `Health: ${round(blobStats.hp)} hp\n`;
-	stats += `Attack: ${round(blobStats.atk)} dmg\n`;
-	stats += `Thorns: ${round(blobStats.pok)} dmg\n`;
-	stats += `Strength: ${round(blobStats.str)} def\n`;
-	stats += `Defense: ${round(blobStats.def)} def\n`;
-	stats += `Speed: ${round(blobStats.spd)} spd\n`;
+	stats += `Experience: ${floor(blob.xp)}/100 xp\n`
+	// stats += `Health: ${int(blob.hp)}/${int(blobStats.hp)} hp\n`;
+	stats += `Health: ${int(blobStats.hp)} hp\n`;
+	stats += `Attack: ${int(blobStats.atk)} dmg\n`;
+	stats += `Thorns: ${int(blobStats.pok)} dmg\n`;
+	stats += `Strength: ${int(blobStats.str)} def\n`;
+	stats += `Defense: ${int(blobStats.def)} def\n`;
+	stats += `Speed: ${int(blobStats.spd)} spd\n`;
 	var ele = blob.elements;
 	if(ele) {
 		stats += `\nElements: ${ele}`;
