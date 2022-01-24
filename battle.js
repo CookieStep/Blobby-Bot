@@ -19,8 +19,11 @@ class Battle{
     }
     async start() {
         var data = await userdata.load(this.battleInfo? this.opp: this.main);
+        /**@type {tBlob[]}*/
         var allBlobs = [];
+        /**@type {tBlob[]}*/
         var party = [];
+        /**@type {tBlob[]}*/
         var party2 = [];
         var names = new Set;
         if(this.battleInfo) {
@@ -88,7 +91,7 @@ class Battle{
         allBlobs = [...allBlobs, ...this.events];
         allBlobs = allBlobs.filter(blob => round(blob.hp) > 0).sort((a, b) => a.delay - b.delay);
         // console.log(allBlobs);
-        /**@type {Blob}*/
+        /**@type {tBlob}*/
         this.turn = allBlobs[0];
         return this.turn;
     }
@@ -296,7 +299,7 @@ class Battle{
             // button.setEmoji(emoji);
             button.setStyle("SECONDARY");
             button.setLabel(skill);
-            row.addComponents(button);
+            buttons.addComponents(button);
         }
         cmd.reply({
             text: `What skill will ${turn.name} use?`,
@@ -304,11 +307,11 @@ class Battle{
             ephemeral: true
         });
     }
-    useSkill(cmd) {
-        cmd.reply({
-            text: "Not yet implemented...",
-            ephemeral: true
-        });
+    useSkill(cmd, skill, id) {
+        var blob = this.turn;
+        if(blob.skills.includes(skill)) {
+            Skills[skill].use(cmd, id);
+        }
     }
     buttons(who) {
         var row = new MessageActionRow;
@@ -463,11 +466,43 @@ var {round, floor, ceil} = Math;
             return 1/this.spd;
         }
     }
+    if(tBlob) {
+        var tBlob = class tBlob extends Blob{};
+    }
 }
+var Skills = {
+    "none.charge": {
+        /**@this {tBlob}*/
+        use(cmd, id) {
+            var battle = battles.get(id);
+        }
+    }
+}
+
+/**@param {Battle} battle*/
+function battleTargets(battle, str) {
+	var row = new MessageActionRow;
+	if(battle.turn.owner == battle.main.id) {
+		var party = battle.party2;
+	}else party = battle.party;
+	for(let blob of party) {
+		let button = new MessageButton;
+		button.setCustomId(`${str} ${blob.name}`);
+		button.setLabel(blob.name);
+		button.setStyle("SECONDARY");
+		button.setEmoji(blob.emoji);
+		if(Math.round(blob.hp) <= 0) {
+			button.setDisabled(true);
+		}
+		row.addComponents(button);
+	}
+	return row;
+}
+
 var {MessageEmbed, MessageActionRow, MessageButton, User} = require("discord.js");
 var userdata = require("./userdata");
 var blank = "\u200B";
 var {Blob: dBlob} = userdata;
 /**@type {Map<string, Battle>}*/
 var battles = new Map;
-module.exports = {battles, Battle};
+module.exports = {battles, Battle, battleTargets};

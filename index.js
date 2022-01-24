@@ -856,27 +856,6 @@ buttons.set("battle.declineChallenge", cmd => {
 		});
 	}
 });
-
-/**@param {aBattle} battle*/
-function battleTargets(battle, str) {
-	var row = new Discord.MessageActionRow;
-	if(battle.turn.owner == battle.main.id) {
-		var party = battle.party2;
-	}else party = battle.party;
-	for(let blob of party) {
-		let button = new MessageButton;
-		button.setCustomId(`${str} ${blob.name}`);
-		button.setLabel(blob.name);
-		button.setStyle("SECONDARY");
-		button.setEmoji(blob.emoji);
-		if(Math.round(blob.hp) <= 0) {
-			button.setDisabled(true);
-		}
-		row.addComponents(button);
-	}
-	return row;
-}
-
 buttons.set("battle.attack", cmd => {
 	var id = cmd.message.id;
 	var battle = Battle.battles.get(id);
@@ -956,7 +935,7 @@ buttons.set("battle.skill", (cmd, skill) => {
 		if(cmd.user.id == battle.turn.owner && !battle.turn.bot) {
 			var blob = battle.turn;
 			if(blob.skills.includes(skill)) {
-				battle.useSkill(cmd, skill);
+				battle.useSkill(cmd, skill, id);
 			}else cmd.reply({
 				content: blob.name + " doesn't have this skill",
 				ephemeral: true
@@ -1018,7 +997,8 @@ const database = require("./database");
 if(db) database.key = db.key;
 const story = require("./story");
 const Battle = require("./battle");
-if(aBattle) var aBattle = Battle.Battle;
+var {battleTargets} = Battle;
+// if(aBattle) var aBattle = Battle.Battle;
 
 var blank = "\u200B";
 
