@@ -970,4 +970,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
-console.log("v1.6");
+console.log("v1.7");
