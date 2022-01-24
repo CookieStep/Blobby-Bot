@@ -317,7 +317,7 @@ class Battle{
 			let skill = blobstats.skills[id].name;
 
 			var button = new MessageButton;
-			button.setCustomId("battle.skill " + id);
+			button.setCustomId(`battle.skill ${this.id} ${id}`);
 			// button.setEmoji(emoji);
 			button.setStyle("SECONDARY");
 			button.setLabel(skill);

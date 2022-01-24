@@ -918,8 +918,8 @@ buttons.set("battle.skills", cmd => {
 		});
 	}
 });
-buttons.set("battle.skill", (cmd, skill) => {
-	var id = cmd.message.id;
+buttons.set("battle.skill", (cmd, id, skill) => {
+	// var id = cmd.message.id;
 	var battle = Battle.battles.get(id);
 	if(!battle) {
 		cmd.reply({
@@ -1014,4 +1014,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
-console.log("v1.3.22");
+console.log("v1.3.23");
