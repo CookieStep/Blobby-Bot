@@ -362,7 +362,7 @@ class Battle{
 const int = num => ceil(num);
 const pen = (a, p) => (p+sqrt(p*p + 4*p*a))*.5;
 
-var {int, floor, ceil} = Math;
+var {round, floor, ceil} = Math;
 {
     let {
         WATER,
