@@ -193,11 +193,11 @@ class Battle{
 		if(blob.hp < 0) return `\n${blob.name} has lost it's form!`;
 		return "";
 	}
-	runAttack(atk, def) {
+	runAttack(atk, def, msg) {
 		//attack
 		var [dmg, rec] = atk.attack(def);
 		//Make messsage
-		var txt = this.attackMsg(atk, def, dmg, rec);
+		var txt = this.attackMsg(atk, def, dmg, rec, msg);
 		txt += this.deathMsg(def);
 		txt += this.deathMsg(atk);
 		this.log += `\n${txt}`;
@@ -528,14 +528,15 @@ var Skills = {
 		},
 		/**@this {tBlob}*/
 		use(battle, blob) {
-			battle.addEvent(this.del * .5, () => {
+			var event = () => {
 				var {atk} = this;
 				this.atk *= 1.5;
 				battle.runAttack(this, blob, `${this.name} uses a charged attack on ${blob.name}`);
 				this.atk = atk;
 				battle.nextTurn();
-			});
-			this.delay += this.del;
+			};
+			battle.addEvent(this.del * .5, event);
+			this.delay += this.del * 1.5;
 			battle.nextTurn();
 			return "Charging...";
 		}
@@ -570,4 +571,4 @@ var {Blob: dBlob} = userdata;
 /**@type {Map<string, Battle>}*/
 var battles = new Map;
 module.exports = {battles, Battle, battleTargets};
-console.log("battle: v1.3.29");
+console.log("battle: v1.3.30");
