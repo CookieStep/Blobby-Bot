@@ -50,7 +50,10 @@ const Elements = {
 		]
 	};
     var skills = {
-        "none.charge": "Wait, then attack for extra damage"
+        "none.charge": {
+            name: "Charged attack",
+            desc: "Wait, then attack for extra damage"
+        }
     };
 	var names = {
 		none: ["Bob", "Carl", "Luke", "John", "Sue", "Mia", "Lisa", "Mark"],

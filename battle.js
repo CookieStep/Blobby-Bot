@@ -88,6 +88,7 @@ class Battle{
         allBlobs = [...allBlobs, ...this.events];
         allBlobs = allBlobs.filter(blob => round(blob.hp) > 0).sort((a, b) => a.delay - b.delay);
         // console.log(allBlobs);
+        /**@type {Blob}*/
         this.turn = allBlobs[0];
         return this.turn;
     }
@@ -283,6 +284,32 @@ class Battle{
             this.timeline = txt;
         }
     }
+    showSkills(cmd) {
+        var {turn} = this;
+        var blob = turn;
+        var buttons = new MessageActionRow;
+        for(let id of blob.skills) {
+            let skill = blobstats.skills[id].name;
+
+            var button = new MessageButton;
+            button.setCustomId("battle.skill " + id);
+            // button.setEmoji(emoji);
+            button.setStyle("SECONDARY");
+            button.setLabel(skill);
+            row.addComponents(button);
+        }
+        cmd.reply({
+            text: `What skill will ${turn.name} use?`,
+            components: [buttons],
+            ephemeral: true
+        });
+    }
+    useSkill(cmd) {
+        cmd.reply({
+            text: "Not yet implemented...",
+            ephemeral: true
+        });
+    }
     buttons(who) {
         var row = new MessageActionRow;
         var emoji = who.emoji;
@@ -292,6 +319,13 @@ class Battle{
         button.setStyle("SECONDARY");
         button.setLabel("Attack");
         row.addComponents(button);
+        if(who.skills.length) {
+            button.setCustomId("battle.skills");
+            button.setEmoji(emoji);
+            button.setStyle("SECONDARY");
+            button.setLabel("Attack");
+            row.addComponents(button);
+        }
         return row;
     }
     started = false;

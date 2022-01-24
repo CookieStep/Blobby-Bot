@@ -910,6 +910,70 @@ buttons.set("battle.attack", cmd => {
 		});
 	}
 });
+buttons.set("battle.skills", cmd => {
+	var id = cmd.message.id;
+	var battle = Battle.battles.get(id);
+	if(!battle) {
+		cmd.reply({
+			content: "This battle is over.",
+			ephemeral: true
+		});
+	// }else if(battle.started) {
+	// 	cmd.reply({
+	// 		content: "This battle already started",
+	// 		ephemeral: true
+	// 	});
+	}else if(cmd.user == battle.main || cmd.user == battle.opp) {
+		if(cmd.user.id == battle.turn.owner && !battle.turn.bot) {
+			battle.showSkills(cmd);
+		}else{
+			cmd.reply({
+				content: "It's not your turn!",
+				ephemeral: true
+			});
+		}
+	}else{
+		cmd.reply({
+			content: "Your not involved in this battle!",
+			ephemeral: true
+		});
+	}
+});
+buttons.set("battle.skill", (cmd, skill) => {
+	var id = cmd.message.id;
+	var battle = Battle.battles.get(id);
+	if(!battle) {
+		cmd.reply({
+			content: "This battle is over.",
+			ephemeral: true
+		});
+	// }else if(battle.started) {
+	// 	cmd.reply({
+	// 		content: "This battle already started",
+	// 		ephemeral: true
+	// 	});
+	}else if(cmd.user == battle.main || cmd.user == battle.opp) {
+		if(cmd.user.id == battle.turn.owner && !battle.turn.bot) {
+			var blob = battle.turn;
+			if(blob.skills.includes(skill)) {
+				battle.useSkill(cmd, skill);
+			}else cmd.reply({
+				content: blob.name + " doesn't have this skill",
+				ephemeral: true
+			});
+		}else{
+			cmd.reply({
+				content: "It's not your turn!",
+				ephemeral: true
+			});
+		}
+	}else{
+		cmd.reply({
+			content: "Your not involved in this battle!",
+			ephemeral: true
+		});
+	}
+});
 buttons.set("battle.use", (cmd, what, id, on) => {
 	// var id = cmd.message.id;
 	var battle = Battle.battles.get(id);
