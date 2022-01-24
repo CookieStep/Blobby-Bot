@@ -361,10 +361,10 @@ function stats(blob, blobStats) {
 	stats += `Speed: ${round(blobStats.spd)} spd\n`;
 	var ele = blob.elements;
 	if(ele) {
-		stats += `Elements: ${ele}\n`;
+		stats += `\nElements: ${ele}`;
 		stats += blob.eleInfo;
 	}
-    if(blob.skills.length) stats += "\nSkills: "
+    if(blob.skills.length) stats += "\n\nSkills: "
     for(let id of blob.skills) {
         let skill = skills[id];
         stats += `\n${skill.name}: ${skill.desc}`;

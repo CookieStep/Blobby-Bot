@@ -320,10 +320,11 @@ class Battle{
         button.setLabel("Attack");
         row.addComponents(button);
         if(who.skills.length) {
+            var button = new MessageButton;
             button.setCustomId("battle.skills");
-            button.setEmoji(emoji);
-            button.setStyle("SECONDARY");
-            button.setLabel("Attack");
+            // button.setEmoji(emoji);
+            // button.setStyle("SECONDARY");
+            button.setLabel("Skills");
             row.addComponents(button);
         }
         return row;
