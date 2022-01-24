@@ -99,6 +99,7 @@ class Battle{
 	addEvent(delay, func) {
 		this.events.push({
 			run: func,
+			event: 1,
 			delay,
 			hp: 1
 		});
@@ -534,6 +535,8 @@ var Skills = {
 				this.atk = atk;
 				battle.nextTurn();
 			});
+			this.delay += this.del;
+			battle.nextTurn();
 			return "Charging...";
 		}
 	}
@@ -567,4 +570,4 @@ var {Blob: dBlob} = userdata;
 /**@type {Map<string, Battle>}*/
 var battles = new Map;
 module.exports = {battles, Battle, battleTargets};
-console.log("battle: v1.3.28");
+console.log("battle: v1.3.29");
