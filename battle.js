@@ -232,9 +232,13 @@ class Battle{
 		this.allBlobs.forEach(blob => blob.delay -= change);
 		this.setTimeline();
 		let embed = this.battleSheet(turn);
-		let row = this.buttons(turn);
-		this.row = row;
-		this.msg.edit({embeds: [embed], components: [row]});
+		if(!turn.event) {
+			let row = this.buttons(turn);
+			this.row = row;
+			this.msg.edit({embeds: [embed], components: [row]});
+		}else{
+			this.msg.edit({embeds: [embed]});
+		}
 		this.log = "";
 
 		if(turn.bot && !allDead) this.doBotTurn(turn);
