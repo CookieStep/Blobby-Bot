@@ -360,7 +360,7 @@ class Battle{
     started = false;
 }
 const int = num => ceil(num);
-const pen = (a, p) => (p+sqrt(p*p + 4*p*a))*.5;
+const pen = (a, p) => (a+sqrt(a*a + 4*a*p))*.5;
 
 var {round, floor, ceil} = Math;
 {
@@ -411,17 +411,17 @@ var {round, floor, ceil} = Math;
             var hp = int(blob.hp);
             var mh = int(this.hp);
 
-            var a = {atk: this.atk, str: this.str, def: this.def, ele: [...this.ele]};
-            var b = {atk: blob.pok, str: blob.str, def: blob.def, ele: [...blob.ele]};
+            var a = {atk: this.atk, str: this.str, def: this.def, ele: [...this.ele], status: new Map(this.status)};
+            var b = {atk: blob.pok, str: blob.str, def: blob.def, ele: [...blob.ele], status: new Map(blob.status)};
 
             status(a, b);
             elements(a, b);
             elements(b, a);
 
-            var atk = pen(a.str, a.atk);
-            var def = pen(b.str, b.atk);
+            var atk = pen(a.atk, a.pen);
+            var def = b.def;
 
-            var pok = b.atk;
+            var pok = pen(b.atk, b.pen);
             var res = a.def;
 
             var dmg = (atk * atk)/(atk + def);
@@ -476,7 +476,7 @@ var {round, floor, ceil} = Math;
                             a.atk *= 0.9; //Water has less attack
                         }
                         if(b.ele.includes(ROCK)) {
-                            a.str *= 0.9; //Water has more strength
+                            a.str *= 1.1; //Water has more strength
                         }
                         if(b.ele.includes(BUZZ)) {
                             a.def *= 0.9; //Water has less defense
@@ -506,7 +506,7 @@ var Skills = {
                 text: "Who will you attack after fully charged?"
             });
         },
-        /**@param {Battle} battle*/
+        /**@this {tBlob} @param {Battle} battle*/
         use(battle, blob, enemies, party) {
             battle.addEvent(this.del * .5, () => {
                 var atk = this.atk;
