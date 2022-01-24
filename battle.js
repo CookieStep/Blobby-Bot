@@ -179,6 +179,8 @@ class Battle{
                 this.nextTurn();
                 return "Success!";
             }else return `Couldn't find a blob named "${on}"`;
+        }else if(what in Skills) {
+
         }
     }
     nextTurn() {
@@ -319,7 +321,7 @@ class Battle{
             // name = this.opp.username;
         }
         if(blob.skills.includes(skill)) {
-            Skills[skill].use(cmd, id, party, party2);
+            Skills[skill].press(cmd, id, party, party2);
         }
     }
     buttons(who) {
@@ -482,9 +484,19 @@ var {round, floor, ceil} = Math;
 var Skills = {
     "none.charge": {
         /**@this {tBlob}*/
-        use(cmd, id, enemies) {
+        press(cmd, id, enemies) {
             var battle = battles.get(id);
-            
+            // battle.addEvent(this.del * .5, () => {
+            //     battle.doBotTurn(this);
+            // });
+            cmd.reply({
+                ephemeral: true,
+                components: [battleTargets(battle, "battle.use none.charge "+id)],
+                text: "Who will you attack after fully charged?"
+            });
+        },
+        use() {
+
         }
     }
 }
