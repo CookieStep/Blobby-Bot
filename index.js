@@ -1,5 +1,4 @@
 console.clear();
-"vroom";
 const Discord = require('discord.js');
 const {Client, Intents, Guild, ApplicationCommand, CommandInteraction, MessageButton} = Discord;
 const bot = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_MESSAGES]});
@@ -1035,4 +1034,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
-console.log("v1.3.15");
+console.log("v1.3.16");
