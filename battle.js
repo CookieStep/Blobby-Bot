@@ -375,6 +375,7 @@ var {round, floor, ceil} = Math;
             this.bot = blob.bot;
             /**@type {string[]}*/
             this.skills = blob.skills;
+            this.status = new Map;
         }
         get xp() {return this.blob.xp}
         set xp(amo) {return this.blob.xp = amo}
@@ -401,7 +402,7 @@ var {round, floor, ceil} = Math;
             if(dmg) blob.hp -= dmg;
             if(melee) {
                 if(pok) this.hp -= pok;
-                if(melee == 1 && blob.status['none.braced']) {
+                if(melee == 1 && blob.status.has('none.braced')) {
                     blob.attack(this, 2);
                 }
             }
@@ -439,7 +440,7 @@ var {round, floor, ceil} = Math;
             }
             function status(a, b) {
                 function effects(a, b) {
-                    if(!a.ele.includes(WATER) && a.status.Wet) {
+                    if(!a.ele.includes(WATER) && a.status.has('water.wet')) {
                         if(b.ele.includes(FIRE)) {
                             b.def *= 0.9; //Fire has less defense
                         }
