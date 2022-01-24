@@ -61,7 +61,7 @@ cmds.set("giveBlobSkill", async (msg, name, skill) => {
 			}else return msg.reply("The skill does not exist!");
 		}
 	}else{
-		msg.reply(`Unable to find a blob with named "${string}}"\nCheck your blobs?"`);
+		msg.reply(`Unable to find a blob with named "${name}}"\nCheck your blobs?"`);
 	}
 });
 cmds.set("setBlob", async (msg, name, lvl=1) => {
@@ -1014,4 +1014,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
-console.log("v1.3.19");
+console.log("v1.3.20");
