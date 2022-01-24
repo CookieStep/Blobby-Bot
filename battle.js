@@ -178,7 +178,7 @@ class Battle{
 				return "Success!";
 			}else return `Couldn't find a blob named "${on}"`;
 		}else if(what in Skills) {
-			return Skills[what].use.call(this.turn, battle, on, party, party2);
+			return Skills[what].use.call(this.turn, this, on, party, party2);
 		}
 	}
 	attackMsg(atk, def, dmg, ret, txt) {
