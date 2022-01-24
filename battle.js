@@ -174,12 +174,7 @@ class Battle{
             }
             if(who) {
                 if(int(who.hp) <= 0) return "They don't have any hp!";
-                var [dmg, ret] = this.turn.attack(who);
-                var txt = this.attackMsg(this.turn, who, dmg, ret);
-                txt += this.deathMsg(who);
-                txt += this.deathMsg(this.turn);
-                this.log = `${this.log}\n${txt}`;
-                this.nextTurn();
+                this.runAttack(this.turn, who);
                 return "Success!";
             }else return `Couldn't find a blob named "${on}"`;
         }else if(what in Skills) {
@@ -196,6 +191,17 @@ class Battle{
     deathMsg(blob) {
         if(blob.hp < 0) return `\n${blob.name} has lost it's form!`;
         return "";
+    }
+    runAttack(atk, def) {
+        //attack
+        var [dmg, rec] = atk.attack(def);
+        //Make messsage
+        var txt = this.attackMsg(atk, def, dmg, rec);
+        txt += this.deathMsg(def);
+        txt += this.deathMsg(atk);
+        this.log += `\n${txt}`;
+        //end
+        return this.nextTurn();
     }
     nextTurn() {
         var {party, party2} = this;
@@ -493,7 +499,16 @@ var {round, floor, ceil} = Math;
     }
     if(tBlob)var tBlob = class tBlob extends Blob{};
 }
+if(Skills) {
+    var skill = {
+        /**@this {tBlob} @param {Discord.CommandInteraction} cmd @param {tBlob[]} enemies @param {tBlob[]} party*/
+        press(cmd, id, enemies, party) {},
+        /**@this {tBlob} @param {Battle} battle @param {tBlob} blob @param {tBlob[]} enemies @param {tBlob[]} party*/
+        use(battle, blob, enemies, party) {}
+    };
+}
 var Skills = {
+    /**@type {skill}*/
     "none.charge": {
         /**@this {tBlob}*/
         press(cmd, id, enemies) {
@@ -501,19 +516,15 @@ var Skills = {
             cmd.reply({
                 ephemeral: true,
                 components: [battleTargets(battle, "battle.use none.charge "+id)],
-                text: "Who will you attack after fully charged?"
+                text: `Use a charged attack on who?`
             });
         },
         /**@this {tBlob} @param {Battle} battle*/
         use(battle, blob, enemies, party) {
             battle.addEvent(this.del * .5, () => {
-                var atk = this.atk;
+                var {atk} = this;
                 this.atk *= 1.5;
-                var [d, r] = this.attack(blob);
-                var txt = battle.attackMsg(this, blob, d, r, `${this.name} performs a charged attack on ${blob.name}`);
-                txt += battle.deathMsg(blob);
-                txt += battle.deathMsg(this);
-                battle.log += `\n${txt}`;
+                battle.runAttack(this, blob, `${this.name} uses a charged attack on ${blob.name}`);
                 this.atk = atk;
                 battle.nextTurn();
             });
@@ -541,7 +552,8 @@ function battleTargets(battle, str) {
 	return row;
 }
 
-var {MessageEmbed, MessageActionRow, MessageButton, User} = require("discord.js");
+var Discord = require("discord.js");
+var {MessageEmbed, MessageActionRow, MessageButton, User} = Discord;
 var userdata = require("./userdata");
 var blank = "\u200B";
 var {Blob: dBlob} = userdata;
