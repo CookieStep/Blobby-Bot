@@ -418,10 +418,10 @@ var {round, floor, ceil} = Math;
             elements(a, b);
             elements(b, a);
 
-            var atk = pen(a.atk, a.pen);
+            var atk = pen(a.atk, a.str);
             var def = b.def;
 
-            var pok = pen(b.atk, b.pen);
+            var pok = pen(b.atk, b.str);
             var res = a.def;
 
             var dmg = (atk * atk)/(atk + def);
@@ -491,9 +491,7 @@ var {round, floor, ceil} = Math;
             return 1/this.spd;
         }
     }
-    if(tBlob) {
-        var tBlob = class tBlob extends Blob{};
-    }
+    if(tBlob)var tBlob = class tBlob extends Blob{};
 }
 var Skills = {
     "none.charge": {
@@ -515,6 +513,7 @@ var Skills = {
                 var txt = battle.attackMsg(this, blob, d, r, `${this.name} performs a charged attack on ${blob.name}`);
                 txt += battle.deathMsg(blob);
                 txt += battle.deathMsg(this);
+                battle.log += `\n${txt}`;
                 this.atk = atk;
                 battle.nextTurn();
             });
