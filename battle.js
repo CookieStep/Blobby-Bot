@@ -164,22 +164,22 @@ class Battle{
 			party2 = this.party2;
 			// name = this.opp.username;
 		}
-		if(what == "attack") {
-			var who;
-			for(let blob of party) {
-				if(blob.name == on) {
-					who = blob;
-					break;
-				}
+		var who;
+		for(let blob of party) {
+			if(blob.name == on) {
+				who = blob;
+				break;
 			}
-			if(who) {
+		}
+		if(who) {
+			if(what == "attack") {
 				if(int(who.hp) <= 0) return "They don't have any hp!";
 				this.runAttack(this.turn, who);
 				return "Success!";
-			}else return `Couldn't find a blob named "${on}"`;
-		}else if(what in Skills) {
-			return Skills[what].use.call(this.turn, this, on, party, party2);
-		}
+			}else if(what in Skills) {
+				return Skills[what].use.call(this.turn, this, who, party, party2, on);
+			}
+		}else return `Couldn't find a blob named "${on}"`;
 	}
 	attackMsg(atk, def, dmg, ret, txt) {
 		txt ||= `${atk.name} attacks ${def.name}!`;
@@ -235,6 +235,7 @@ class Battle{
 		let row = this.buttons(turn);
 		this.row = row;
 		this.msg.edit({embeds: [embed], components: [row]});
+		this.log = "";
 
 		if(turn.bot && !allDead) this.doBotTurn(turn);
 		if(allDead) this.end();
@@ -504,14 +505,14 @@ if(Skills) {
 		/**@this {tBlob} @param {Discord.CommandInteraction} cmd @param {tBlob[]} enemies @param {tBlob[]} party*/
 		press(cmd, id, enemies, party) {},
 		/**@this {tBlob} @param {Battle} battle @param {tBlob} blob @param {tBlob[]} enemies @param {tBlob[]} party*/
-		use(battle, blob, enemies, party) {}
+		use(battle, blob, enemies, party, name) {}
 	};
 }
 var Skills = {
 	/**@type {skill}*/
 	"none.charge": {
 		/**@this {tBlob}*/
-		press(cmd, id, enemies) {
+		press(cmd, id) {
 			var battle = battles.get(id);
 			cmd.reply({
 				ephemeral: true,
@@ -519,8 +520,8 @@ var Skills = {
 				content: `Use a charged attack on who?`
 			});
 		},
-		/**@this {tBlob} @param {Battle} battle*/
-		use(battle, blob, enemies, party) {
+		/**@this {tBlob}*/
+		use(battle, blob) {
 			battle.addEvent(this.del * .5, () => {
 				var {atk} = this;
 				this.atk *= 1.5;
@@ -528,6 +529,7 @@ var Skills = {
 				this.atk = atk;
 				battle.nextTurn();
 			});
+			return "Charging...";
 		}
 	}
 }
