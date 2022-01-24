@@ -309,8 +309,17 @@ class Battle{
     }
     useSkill(cmd, skill, id) {
         var blob = this.turn;
+        if(blob.owner == this.main.id) {
+            var party = this.party2;
+            var party2 = this.party;
+            // var name = this.main.username;
+        }else{
+            party = this.party;
+            party2 = this.party2;
+            // name = this.opp.username;
+        }
         if(blob.skills.includes(skill)) {
-            Skills[skill].use(cmd, id);
+            Skills[skill].use(cmd, id, party, party2);
         }
     }
     buttons(who) {
@@ -473,8 +482,9 @@ var {round, floor, ceil} = Math;
 var Skills = {
     "none.charge": {
         /**@this {tBlob}*/
-        use(cmd, id) {
+        use(cmd, id, enemies) {
             var battle = battles.get(id);
+            
         }
     }
 }
