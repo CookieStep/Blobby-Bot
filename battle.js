@@ -372,6 +372,8 @@ var {round, floor, ceil} = Math;
             this.ele = stats.ele;
             /**@type {boolean}*/
             this.bot = blob.bot;
+            /**@type {string[]}*/
+            this.skills = blob.skills;
         }
         get xp() {return this.blob.xp}
         set xp(amo) {return this.blob.xp = amo}

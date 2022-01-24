@@ -1034,4 +1034,4 @@ if(User) var {User} = userdata;
 	}
 	// console.log(await database.list());
 })();
-console.log("v1.7");
+console.log("v1.8");
