@@ -323,7 +323,7 @@ class Battle{
             var button = new MessageButton;
             button.setCustomId("battle.skills");
             // button.setEmoji(emoji);
-            // button.setStyle("SECONDARY");
+            button.setStyle("PRIMARY");
             button.setLabel("Skills");
             row.addComponents(button);
         }
