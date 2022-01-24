@@ -1,12 +1,12 @@
 const Elements = {
-    WATER: Symbol(),
-    FIRE: Symbol(),
-    ROCK: Symbol(),
-    BUZZ: Symbol(),
-    PLANT: Symbol(),
-    DARK: Symbol(),
-    MONSTER: Symbol(),
-    LIGHT: Symbol()
+	WATER: Symbol(),
+	FIRE: Symbol(),
+	ROCK: Symbol(),
+	BUZZ: Symbol(),
+	PLANT: Symbol(),
+	DARK: Symbol(),
+	MONSTER: Symbol(),
+	LIGHT: Symbol()
 };
 {
 	let {
@@ -49,12 +49,12 @@ const Elements = {
 			"Monster: 20% more damage to Plant"
 		]
 	};
-    var skills = {
-        "none.charge": {
-            name: "Charged attack",
-            desc: "Wait, then attack for extra damage"
-        }
-    };
+	var skills = {
+		"none.charge": {
+			name: "Charged attack",
+			desc: "Wait, then attack for extra damage"
+		}
+	};
 	var names = {
 		none: ["Bob", "Carl", "Luke", "John", "Sue", "Mia", "Lisa", "Mark"],
 		water: ["Drink", "Drip", "Drop", "Liquid", "H-Two", "Puddle", "River", "Levi"],
@@ -73,217 +73,217 @@ const Elements = {
 		prince: ["Ash", "Flame", "Arthur", "Ray", "Crisp", "Livid", "Engulf", "Burn"]
 	};
 	Elements.buffs = buffs;
-    var base = {
-        none: {
-            name: "None",
-            hp : 21,
-            atk: 5,
-            def: 5,
-            spd: 10,
-            pok: 0,
-            tier: 0,
-            str: 0,
-            ele: [],
-            per: "La",
-            id: "none"
-        },
-        water: {
-            name: "Water",
-            hp : 15,
-            atk: 4,
-            def: 4,
-            spd: 15,
-            pok: 0,
-            tier: 0,
-            str: 1,
-            per: "Co",
-            ele: [WATER],
-            id: "water"
-        },
-        fire: {
-            name: "Fire",
-            hp : 10,
-            atk: 2,
-            def: 2,
-            spd: 15,
-            pok: 5,
-            tier: 0,
-            str: 5,
-            per: "En",
-            ele: [FIRE],
-            id: "fire"
-        },
-        rock: {
-            name: "Rock",
-            hp : 10,
-            atk: 6,
-            def: 15,
-            spd: 5,
-            pok: 0,
-            str: 3,
-            tier: 0,
-            per: "St",
-            ele: [ROCK],
-            id: "rock"
-        },
-        buzz: {
-            name: "Electric",
-            hp : 15,
-            atk: 2,
-            def: 1,
-            spd: 20,
-            pok: 0,
-            str: 10,
-            tier: 0,
-            per: "En",
-            ele: [BUZZ],
-            id : "buzz"
-        },
-        tech: {
-            name: "Tech",
-            hp : 19.7,
-            atk: 5,
-            def: 5,
-            spd: 10,
-            pok: 0,
-            str: 0,
-            tier: 1,
-            per: "Ca",
-            ele: [BUZZ, ROCK],
-            id : "tech"
-        },
-        plant: {
-            name: "Plant",
-            hp : 26,
-            atk: 4,
-            def: 1,
-            spd: 10,
-            pok: 0,
-            str: 3,
-            tier: 0,
-            per: "Ki",
-            ele: [PLANT],
-            id : "plant"
-        },
-        rose: {//Fire + Plant
-            name: "Rose",
-            hp : 20,
-            atk: 3,
-            def: 0,
-            spd: 10,
-            pok: 3,
-            str: 4,
-            tier: 1,
-            per: "Ai",
-            ele: [PLANT],
-            id : "rose"
-        },
-        wood: {//Plant + Rock
-            name: "Tree",
-            hp : 40,
-            atk: 2,
-            def: 10,
-            spd: 7,
-            pok: 0,
-            str: 2,
-            tier: 1,
-            per: "La",
-            ele: [PLANT],
-            id: "wood"
-        },
-        torch: {//Wood + Fire
-            name: "Torch",
-            hp : 17,
-            atk: 3,
-            def: 10,
-            spd: 10,
-            pok: 0,
-            str: 2,
-            tier: 2,
-            per: "Ca",
-            ele: [PLANT, FIRE],
-            id: "torch"
-        },
-        venus: {//Plant + Monster
-            name: "Venus",
-            hp : 14,
-            atk: 5,
-            def: 10,
-            spd: 10,
-            pok: 0,
-            str: 0,
-            tier: 1,
-            per: "Ai",
-            ele: [PLANT, MONSTER],
-            id : "venus"
-        },
-        dark: {
-            name: "Dark",
-            hp : 20,
-            atk: 3,
-            def: 2,
-            spd: 10,
-            pok: 0,
-            str: 8,
-            tier: 0,
-            per: "Co",
-            ele: [DARK],
-            id : "dark"
-        },
-        monster: {
-            name: "Monster",
-            hp : 11,
-            atk: 10,
-            def: 2,
-            spd: 10,
-            pok: 0,
-            str: 0,
-            tier: 1,
-            per: "En",
-            ele: [MONSTER],
-            id : "monster"
-        },
-        light: {
-            name: "Light",
-            hp : 13,
-            atk: 7,
-            def: 0,
-            spd: 15,
-            pok: 0,
-            str: 2,
-            tier: 0,
-            per: "Ki",
-            ele: [LIGHT],
-            id : "light"
-        },
-        prince: {//Fire + None
-            name: "Prince",
-            hp: 20,
-            atk: 5,
-            def: 3,
-            spd: 10,
-            pok: 0,
-            str: 1,
-            tier: 1,
-            per: "Ki",
-            ele: [],
-            id: "prince"
-        }
-    };
+	var base = {
+		none: {
+			name: "None",
+			hp : 21,
+			atk: 5,
+			def: 5,
+			spd: 10,
+			pok: 0,
+			tier: 0,
+			str: 0,
+			ele: [],
+			per: "La",
+			id: "none"
+		},
+		water: {
+			name: "Water",
+			hp : 15,
+			atk: 4,
+			def: 4,
+			spd: 15,
+			pok: 0,
+			tier: 0,
+			str: 1,
+			per: "Co",
+			ele: [WATER],
+			id: "water"
+		},
+		fire: {
+			name: "Fire",
+			hp : 10,
+			atk: 2,
+			def: 2,
+			spd: 15,
+			pok: 5,
+			tier: 0,
+			str: 5,
+			per: "En",
+			ele: [FIRE],
+			id: "fire"
+		},
+		rock: {
+			name: "Rock",
+			hp : 10,
+			atk: 6,
+			def: 15,
+			spd: 5,
+			pok: 0,
+			str: 3,
+			tier: 0,
+			per: "St",
+			ele: [ROCK],
+			id: "rock"
+		},
+		buzz: {
+			name: "Electric",
+			hp : 15,
+			atk: 2,
+			def: 1,
+			spd: 20,
+			pok: 0,
+			str: 10,
+			tier: 0,
+			per: "En",
+			ele: [BUZZ],
+			id : "buzz"
+		},
+		tech: {
+			name: "Tech",
+			hp : 19.7,
+			atk: 5,
+			def: 5,
+			spd: 10,
+			pok: 0,
+			str: 0,
+			tier: 1,
+			per: "Ca",
+			ele: [BUZZ, ROCK],
+			id : "tech"
+		},
+		plant: {
+			name: "Plant",
+			hp : 26,
+			atk: 4,
+			def: 1,
+			spd: 10,
+			pok: 0,
+			str: 3,
+			tier: 0,
+			per: "Ki",
+			ele: [PLANT],
+			id : "plant"
+		},
+		rose: {//Fire + Plant
+			name: "Rose",
+			hp : 20,
+			atk: 3,
+			def: 0,
+			spd: 10,
+			pok: 3,
+			str: 4,
+			tier: 1,
+			per: "Ai",
+			ele: [PLANT],
+			id : "rose"
+		},
+		wood: {//Plant + Rock
+			name: "Tree",
+			hp : 40,
+			atk: 2,
+			def: 10,
+			spd: 7,
+			pok: 0,
+			str: 2,
+			tier: 1,
+			per: "La",
+			ele: [PLANT],
+			id: "wood"
+		},
+		torch: {//Wood + Fire
+			name: "Torch",
+			hp : 17,
+			atk: 3,
+			def: 10,
+			spd: 10,
+			pok: 0,
+			str: 2,
+			tier: 2,
+			per: "Ca",
+			ele: [PLANT, FIRE],
+			id: "torch"
+		},
+		venus: {//Plant + Monster
+			name: "Venus",
+			hp : 14,
+			atk: 5,
+			def: 10,
+			spd: 10,
+			pok: 0,
+			str: 0,
+			tier: 1,
+			per: "Ai",
+			ele: [PLANT, MONSTER],
+			id : "venus"
+		},
+		dark: {
+			name: "Dark",
+			hp : 20,
+			atk: 3,
+			def: 2,
+			spd: 10,
+			pok: 0,
+			str: 8,
+			tier: 0,
+			per: "Co",
+			ele: [DARK],
+			id : "dark"
+		},
+		monster: {
+			name: "Monster",
+			hp : 11,
+			atk: 10,
+			def: 2,
+			spd: 10,
+			pok: 0,
+			str: 0,
+			tier: 1,
+			per: "En",
+			ele: [MONSTER],
+			id : "monster"
+		},
+		light: {
+			name: "Light",
+			hp : 13,
+			atk: 7,
+			def: 0,
+			spd: 15,
+			pok: 0,
+			str: 2,
+			tier: 0,
+			per: "Ki",
+			ele: [LIGHT],
+			id : "light"
+		},
+		prince: {//Fire + None
+			name: "Prince",
+			hp: 20,
+			atk: 5,
+			def: 3,
+			spd: 10,
+			pok: 0,
+			str: 1,
+			tier: 1,
+			per: "Ki",
+			ele: [],
+			id: "prince"
+		}
+	};
 }
 
 function create(base, lvl) {
-    base = {...base};
-    var l = lvl - 1;
-    var mult = 2 ** (l * .1);
-    for(let stat in base) {
+	base = {...base};
+	var l = lvl - 1;
+	var mult = 2 ** (l * .1);
+	for(let stat in base) {
 		var value = base[stat];
-        if(typeof value != "number") continue;
-        base[stat] = value * mult;
-    }
-    base.lvl = lvl;
-    base.mult = mult;
-    return base;
+		if(typeof value != "number") continue;
+		base[stat] = value * mult;
+	}
+	base.lvl = lvl;
+	base.mult = mult;
+	return base;
 }
 var {MessageEmbed, Guild} = require("discord.js");
 if(Blob) var {Blob, User} = require("./userdata");
@@ -364,11 +364,11 @@ function stats(blob, blobStats) {
 		stats += `\nElements: ${ele}`;
 		stats += blob.eleInfo;
 	}
-    if(blob.skills.length) stats += "\n\nSkills: "
-    for(let id of blob.skills) {
-        let skill = skills[id];
-        stats += `\n${skill.name}: ${skill.desc}`;
-    }
+	if(blob.skills.length) stats += "\n\nSkills: "
+	for(let id of blob.skills) {
+		let skill = skills[id];
+		stats += `\n${skill.name}: ${skill.desc}`;
+	}
 	return stats
 };
 
