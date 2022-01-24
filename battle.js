@@ -132,8 +132,8 @@ class Battle{
 		}
 		return embed;
 	}
-	botDel   = 1000;
-	eventDel = 1000;
+	botDel   = 2000;
+	eventDel = 2000;
 	async doBotTurn(turn) {
 		if(turn.owner == this.main.id) {
 			var party = this.party2;
@@ -230,6 +230,7 @@ class Battle{
 		let turn = this.getTurn();
 		let change = turn.delay;
 		this.allBlobs.forEach(blob => blob.delay -= change);
+		this.events.forEach(event => event.delay -= change);
 		this.setTimeline();
 		let embed = this.battleSheet(turn);
 		if(!turn.event) {
@@ -566,3 +567,4 @@ var {Blob: dBlob} = userdata;
 /**@type {Map<string, Battle>}*/
 var battles = new Map;
 module.exports = {battles, Battle, battleTargets};
+console.log("battle: v1.3.28");
