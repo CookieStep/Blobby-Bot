@@ -26,7 +26,8 @@ const Elements = {
 		],
 		[FIRE]: [
 			"Fire: 20% more damage to Plant",
-			"Fire: 20% more damage to Monster"
+			"Fire: 20% more damage to Monster",
+			"Fire: Ignore 20% of Dark defense"
 		],
 		[ROCK]: [
 			"Rock: Ignore 20% of Plant defense"

@@ -467,6 +467,8 @@ var {round, floor, ceil, sqrt} = Math;
 				if(vs(PLANT, ROCK)) a.def *= 0.8;
 				//Water has 20% less defense against Buzz
 				if(vs(WATER, BUZZ)) a.def *= 0.8;
+				//Dark has 20% less defense against Fire
+				if(vs(DARK, FIRE)) a.def *= 0.8;
 				//Dark has 20% more strength against Light
 				if(vs(DARK, LIGHT)) a.str *= 1.2;
 				//Light has 20% more attack against Dark
