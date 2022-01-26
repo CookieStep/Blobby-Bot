@@ -994,7 +994,10 @@ var ownerid = "563924556910297099";
 const userdata = require("./userdata");
 const blobs = require("./stats");
 const database = require("./database");
-if(db) database.key = db.key;
+if(db) {
+    var db;
+    database.key = db.key;
+}
 const story = require("./story");
 const Battle = require("./battle");
 var {battleTargets} = Battle;

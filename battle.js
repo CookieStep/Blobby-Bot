@@ -95,9 +95,9 @@ class Battle{
 		this.turn = allBlobs[0];
 		return this.turn;
 	}
-	events = [];
+	events = new Set;
 	addEvent(delay, func) {
-		this.events.push({
+		this.events.add({
 			run: func,
 			event: 1,
 			delay,
@@ -147,7 +147,9 @@ class Battle{
 		this.botTurn(turn, party, enemies);
 	}
 	async doEvent(event) {
+		console.log("event");
 		await delay(this.eventDel);
+		this.events.delete(event);
 		event.run();
 	}
 	botTurn(blob, enemies, party) {
@@ -175,9 +177,12 @@ class Battle{
 		if(who) {
 			if(what == "attack") {
 				if(int(who.hp) <= 0) return "They don't have any hp!";
+		        this.log = "";
 				this.runAttack(this.turn, who);
+				this.nextTurn();
 				return "Success!";
 			}else if(what in Skills) {
+				console.log("button");
 				return Skills[what].use.call(this.turn, this, who, party, party2, on);
 			}
 		}else return `Couldn't find a blob named "${on}"`;
@@ -194,7 +199,6 @@ class Battle{
 		return "";
 	}
 	runAttack(atk, def, msg) {
-		console.log(atk, def);
 		//attack
 		var [dmg, rec] = atk.attack(def);
 		//Make messsage
@@ -202,8 +206,6 @@ class Battle{
 		txt += this.deathMsg(def);
 		txt += this.deathMsg(atk);
 		this.log += `\n${txt}`;
-		//end
-		return this.nextTurn();
 	}
 	nextTurn() {
 		var {party, party2} = this;
@@ -242,9 +244,7 @@ class Battle{
 		}else{
 			this.msg.edit({embeds: [embed]});
 		}
-		this.log = "";
 
-		if(turn.bot && !allDead) this.doBotTurn(turn);
 		if(allDead) this.end();
 		else{
 			if(turn.bot) this.doBotTurn(turn);
@@ -349,7 +349,7 @@ class Battle{
 			// name = this.opp.username;
 		}
 		if(blob.skills.includes(skill)) {
-			Skills[skill].press(cmd, id, party, party2);
+			Skills[skill].press.call(blob, cmd, id, party, party2);
 		}
 	}
 	buttons(who) {
@@ -398,7 +398,7 @@ var {round, floor, ceil, sqrt} = Math;
 			/**@type {number}*/
 			this.share = stats.mult * stats.mult;
 			this.owner = owner;
-			this.lvl = blob.lvl
+			this.lvl = blob.lvl;
 			this.hp = blob.hp;
 			/**@type {number}*/
 			this.spd = stats.spd;
@@ -406,6 +406,8 @@ var {round, floor, ceil, sqrt} = Math;
 			this.def = stats.def;
 			/**@type {number}*/
 			this.atk = stats.atk;
+			/**@type {number}*/
+			this.str = stats.str;
 			/**@type {number}*/
 			this.pok = stats.pok;
 			this.delay = this.del;
@@ -467,7 +469,7 @@ var {round, floor, ceil, sqrt} = Math;
 				if(vs(PLANT, ROCK)) a.def *= 0.8;
 				//Water has 20% less defense against Buzz
 				if(vs(WATER, BUZZ)) a.def *= 0.8;
-				//Dark has 20% less defense against Fire
+				//Dark has 20% less defense against Light
 				if(vs(DARK, FIRE)) a.def *= 0.8;
 				//Dark has 20% more strength against Light
 				if(vs(DARK, LIGHT)) a.str *= 1.2;
@@ -507,7 +509,7 @@ var {round, floor, ceil, sqrt} = Math;
 			return 1/this.spd;
 		}
 	}
-	if(tBlob)var tBlob = class tBlob extends Blob{};
+	if(tBlob) var tBlob = class tBlob extends Blob{};
 }
 if(Skills) {
 	var skill = {
@@ -534,9 +536,11 @@ var Skills = {
 			var event = () => {
 				var {atk} = this;
 				this.atk *= 1.5;
+				battle.log = "";
 				battle.runAttack(this, blob, `${this.name} uses a charged attack on ${blob.name}`);
 				this.atk = atk;
 				battle.nextTurn();
+				console.log("used skill");
 			};
 			battle.addEvent(this.del * .5, event);
 			this.delay += this.del * 1.5;
